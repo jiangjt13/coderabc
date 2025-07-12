@@ -1,0 +1,62 @@
+nohup: ignoring input
+
+> toolsabc@0.1.0 dev
+> next dev
+
+ ⚠ Port 3000 is in use, trying 3001 instead.
+  ▲ Next.js 14.2.14
+  - Local:        http://localhost:3001
+
+ ✓ Starti ✓ C ✓ Ready in 12.6s
+[?25h
+(550 modules)
+ HEAD / 200 in 17319ms
+ GET /tools/ip/ 200 in 9360ms
+ ○ Compiling /_not-found ...
+ ✓ Compiled /_not-found in 632ms (539 modules)
+ GET /tools/ip/ 404 in 1073ms
+ GET /_next/static/css/app/layout.css?v=1752306307282 404 in 62ms
+ GET /_next/static/chunks/main-app.js?v=1752306307282 404 in 145ms
+ GET /_next/static/chunks/app-pages-internals.js 404 in 138ms
+ GET /_next/static/chunks/app/layout.js 404 in 112ms
+ ○ Compiling /_error ...
+ ✓ Compiled /_error in 2.8s (765 modules)
+ GET /tools/ip/ 404 in 3443ms
+ HEAD / 200 in 328ms
+ GET /tools/ip/ 200 in 115ms
+ GET /_next/static/css/app/layout.css?v=1752306314822 404 in 51ms
+ GET /_next/static/chunks/main-app.js?v=1752306314822 404 in 116ms
+ GET /_next/static/chunks/app-pages-internals.js 404 in 101ms
+ GET /_next/static/chunks/app/tools/ip/page.js 404 in 72ms
+ GET /_next/static/chunks/app/layout.js 404 in 35ms
+ GET /tools/ip/ 200 in 94ms
+ GET /_next/static/css/app/layout.css?v=1752306317137 404 in 43ms
+ GET /_next/static/chunks/app/layout.js 404 in 91ms
+ GET /_next/static/chunks/main-app.js?v=1752306317137 404 in 102ms
+ GET /_next/static/chunks/app-pages-internals.js 404 in 117ms
+ GET /_next/static/chunks/app/tools/ip/page.js 404 in 77ms
+ GET /tools/ip/ 200 in 94ms
+ GET /_next/static/css/app/layout.css?v=1752306318804 404 in 37ms
+ GET /_next/static/chunks/main-app.js?v=1752306318804 404 in 54ms
+ GET /_next/static/chunks/app-pages-internals.js 404 in 42ms
+ GET /_next/static/chunks/app/layout.js 404 in 71ms
+ GET /_next/static/chunks/app/tools/ip/page.js 404 in 46ms
+ GET /tools/ip/ 200 in 88ms
+ GET /_next/static/css/app/layout.css?v=1752306319577 404 in 39ms
+ GET /_next/static/chunks/app-pages-internals.js 404 in 78ms
+ GET /_next/static/chunks/main-app.js?v=1752306319577 404 in 93ms
+ GET /_next/static/chunks/app/tools/ip/page.js 404 in 55ms
+ GET /_next/static/chunks/app/layout.js 404 in 37ms
+ GET /tools/ip/ 200 in 97ms
+ GET /_next/static/css/app/layout.css?v=1752306320217 404 in 37ms
+ GET /_next/static/chunks/app/layout.js 404 in 78ms
+ GET /_next/static/chunks/app-pages-internals.js 404 in 86ms
+ GET /_next/static/chunks/main-app.js?v=1752306320217 404 in 100ms
+ GET /_next/static/chunks/app/tools/ip/page.js 404 in 65ms
+ GET /tools/ip/ 200 in 92ms
+ GET /_next/static/css/app/layout.css?v=1752306326499 404 in 34ms
+ GET /_next/static/chunks/main-app.js?v=1752306326499 404 in 86ms
+ GET /_next/static/chunks/app-pages-internals.js 404 in 75ms
+ GET /_next/static/chunks/app/tools/ip/page.js 404 in 53ms
+ GET /_next/static/chunks/app/layout.js 404 in 34ms
+[?25h
