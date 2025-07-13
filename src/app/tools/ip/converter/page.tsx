@@ -1,8 +1,9 @@
 "use client"
 
 import Link from 'next/link'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Server, ArrowLeft, RefreshCw, Copy, Check, Info } from 'lucide-react'
+import { useLanguage } from '@/contexts/language-context'
 
 interface IPv4ConversionResult {
   type: 'ipv4'
@@ -47,6 +48,7 @@ interface AggregatedResults {
 }
 
 export default function IPConverter() {
+  const { language, t } = useLanguage()
   const [input, setInput] = useState('')
   const [aggregatedResults, setAggregatedResults] = useState<AggregatedResults | null>(null)
   const [errors, setErrors] = useState<string[]>([])
@@ -54,6 +56,14 @@ export default function IPConverter() {
   const [endianness, setEndianness] = useState<'big' | 'little'>('big')
   const [signedMode, setSignedMode] = useState<'signed' | 'unsigned'>('unsigned')
   const [copiedField, setCopiedField] = useState<string | null>(null)
+
+  // 动态更新页面标题
+  useEffect(() => {
+    document.title = `CoderABC - ${t('ip.converter.page.title')}`
+    return () => {
+      document.title = 'CoderABC - 开发者工具与技术笔记'
+    }
+  }, [language, t])
 
   const copyToClipboard = async (text: string, field: string) => {
     try {

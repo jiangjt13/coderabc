@@ -3,9 +3,18 @@
 import Link from 'next/link'
 import { Globe, Code2 } from 'lucide-react'
 import { useLanguage } from '@/contexts/language-context'
+import { useEffect } from 'react'
 
 export default function ToolsPage() {
   const { t } = useLanguage()
+
+  // 动态更新页面标题
+  useEffect(() => {
+    document.title = 'CoderABC - 在线工具'
+    return () => {
+      document.title = 'CoderABC - 开发者工具与技术笔记'
+    }
+  }, [])
   
   const tools = [
     {

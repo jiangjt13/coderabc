@@ -1,7 +1,8 @@
 'use client'
 
 import { FileText, Terminal, Copy, ChevronDown, ChevronRight, Menu, X, Edit } from 'lucide-react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useLanguage } from '@/contexts/language-context'
 
 export default function SedTour() {
   const [activeSection, setActiveSection] = useState('installation')
@@ -12,6 +13,14 @@ export default function SedTour() {
     'advanced': true,
     'tips': true
   })
+
+  // 动态更新页面标题
+  useEffect(() => {
+    document.title = 'CoderABC - sed 流编辑器学习指南'
+    return () => {
+      document.title = 'CoderABC - 开发者工具与技术笔记'
+    }
+  }, [])
 
   const toggleSection = (sectionId: string) => {
     setExpandedSections(prev => ({
@@ -647,11 +656,14 @@ export default function SedTour() {
               <Edit className="h-5 w-5 text-primary" />
               <h1 className="text-lg font-bold text-card-foreground">sed Tour</h1>
             </div>
+            {/* 目录开关按钮 */}
             <button
               onClick={() => setSidebarOpen(false)}
-              className="p-1 hover:bg-muted rounded lg:hidden"
+              className="flex items-center space-x-1 px-2 py-1 text-xs font-medium text-muted-foreground hover:text-foreground hover:bg-muted rounded transition-colors"
+              title="隐藏目录"
             >
-              <X className="h-4 w-4" />
+              <FileText className="h-3 w-3" />
+              <span className="hidden sm:inline">隐藏</span>
             </button>
           </div>
           

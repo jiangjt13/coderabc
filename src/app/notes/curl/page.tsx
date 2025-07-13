@@ -1,9 +1,11 @@
 'use client'
 
 import { FileText, Terminal, Copy, ChevronDown, ChevronRight, Menu, X, Globe } from 'lucide-react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useLanguage } from '@/contexts/language-context'
 
 export default function CurlTour() {
+  const { language, t } = useLanguage()
   const [activeSection, setActiveSection] = useState('installation')
   const [sidebarOpen, setSidebarOpen] = useState(true)
   const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>({
@@ -12,6 +14,14 @@ export default function CurlTour() {
     'advanced': true,
     'tips': true
   })
+
+  // 动态更新页面标题
+  useEffect(() => {
+    document.title = `CoderABC - ${t('curl.page.title')}`
+    return () => {
+      document.title = 'CoderABC - 开发者工具与技术笔记'
+    }
+  }, [language, t])
 
   const toggleSection = (sectionId: string) => {
     setExpandedSections(prev => ({
@@ -23,30 +33,30 @@ export default function CurlTour() {
   const tableOfContents = [
     {
       id: 'getting-started',
-      title: '开始使用',
+      title: t('curl.getting.started'),
       children: [
-        { id: 'installation', title: '如何安装' },
-        { id: 'basic-intro', title: '基本介绍' }
+        { id: 'installation', title: t('curl.installation') },
+        { id: 'basic-intro', title: t('curl.basic.intro') }
       ]
     },
     {
       id: 'basic-usage',
-      title: '基础用法',
+      title: t('curl.basic.usage'),
       children: [
-        { id: 'basic-requests', title: '基本请求' },
-        { id: 'http-methods', title: 'HTTP方法' },
-        { id: 'headers', title: '请求头设置' },
-        { id: 'data-sending', title: '发送数据' }
+        { id: 'basic-requests', title: t('curl.get.requests') },
+        { id: 'http-methods', title: 'HTTP Methods' },
+        { id: 'headers', title: t('curl.headers') },
+        { id: 'data-sending', title: t('curl.data.sending') }
       ]
     },
     {
       id: 'advanced',
-      title: '高级功能',
+      title: t('curl.advanced'),
       children: [
-        { id: 'file-operations', title: '文件操作' },
-        { id: 'authentication', title: '身份验证' },
-        { id: 'cookies', title: 'Cookie处理' },
-        { id: 'ssl-tls', title: 'SSL/TLS设置' }
+        { id: 'file-operations', title: t('curl.file.operations') },
+        { id: 'authentication', title: t('curl.authentication') },
+        { id: 'cookies', title: 'Cookies' },
+        { id: 'ssl-tls', title: 'SSL/TLS' }
       ]
     },
     {
@@ -860,11 +870,14 @@ export default function CurlTour() {
               <Globe className="h-5 w-5 text-primary" />
               <h1 className="text-lg font-bold text-card-foreground">curl Tour</h1>
             </div>
+            {/* 目录开关按钮 */}
             <button
               onClick={() => setSidebarOpen(false)}
-              className="p-1 hover:bg-muted rounded lg:hidden"
+              className="flex items-center space-x-1 px-2 py-1 text-xs font-medium text-muted-foreground hover:text-foreground hover:bg-muted rounded transition-colors"
+              title="隐藏目录"
             >
-              <X className="h-4 w-4" />
+              <FileText className="h-3 w-3" />
+              <span className="hidden sm:inline">隐藏</span>
             </button>
           </div>
           

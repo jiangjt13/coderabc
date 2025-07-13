@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
 import { MapPin, ArrowLeft, Search, Globe, Navigation, Clock, Wifi, User } from 'lucide-react'
+import { useLanguage } from '@/contexts/language-context'
 
 interface GeolocationInfo {
   ip: string
@@ -19,11 +20,20 @@ interface GeolocationInfo {
 }
 
 export default function IPGeolocation() {
+  const { language, t } = useLanguage()
   const [ip, setIp] = useState('')
   const [loading, setLoading] = useState(false)
   const [result, setResult] = useState<GeolocationInfo | null>(null)
   const [error, setError] = useState('')
   const [gettingMyIP, setGettingMyIP] = useState(false)
+
+  // 动态更新页面标题
+  useEffect(() => {
+    document.title = `CoderABC - ${t('ip.geolocation.page.title')}`
+    return () => {
+      document.title = 'CoderABC - 开发者工具与技术笔记'
+    }
+  }, [language, t])
 
   const getMyIP = async () => {
     setGettingMyIP(true)
@@ -34,7 +44,7 @@ export default function IPGeolocation() {
       // 自动查询
       handleSearch(data.ip)
     } catch (error) {
-      setError('获取IP地址失败，请手动输入')
+      setError(t('ip.geolocation.error.get.ip'))
     } finally {
       setGettingMyIP(false)
     }
@@ -43,14 +53,14 @@ export default function IPGeolocation() {
   const handleSearch = async (targetIP?: string) => {
     const searchIP = targetIP || ip
     if (!searchIP.trim()) {
-      setError('请输入有效的IP地址')
+      setError(t('ip.geolocation.error.invalid'))
       return
     }
 
     setLoading(true)
     setError('')
     try {
-      const response = await fetch(`http://ip-api.com/json/${searchIP}?fields=status,message,country,regionName,city,lat,lon,timezone,isp,org,query,as`)
+      const response = await fetch(`https://coderabc.redherringai.com/api/ip?ip=${searchIP}`)
       const data = await response.json()
       
       if (data.status === 'success') {
@@ -68,10 +78,10 @@ export default function IPGeolocation() {
           asname: data.as ? data.as.substring(data.as.indexOf(' ') + 1) : ''
         })
       } else {
-        setError(data.message || '查询失败，请检查IP地址格式')
+        setError(data.message || t('ip.geolocation.error.failed'))
       }
     } catch (error) {
-      setError('网络错误，请稍后重试')
+      setError(t('ip.geolocation.error.failed'))
     } finally {
       setLoading(false)
     }
@@ -84,16 +94,16 @@ export default function IPGeolocation() {
         className="inline-flex items-center space-x-2 text-muted-foreground hover:text-foreground transition-colors"
       >
         <ArrowLeft className="h-4 w-4" />
-        <span>返回IP工具</span>
+        <span>{t('ip.geolocation.breadcrumb')}</span>
       </Link>
 
       <div className="text-center space-y-4">
         <h1 className="text-3xl font-bold text-foreground flex items-center justify-center space-x-2">
           <MapPin className="h-8 w-8 text-primary" />
-          <span>IP 地理位置查询</span>
+          <span>{t('ip.geolocation.header.title')}</span>
         </h1>
         <p className="text-lg text-muted-foreground">
-          查询IP地址的地理位置信息，包括国家、城市、ISP、ASN等详细信息
+          {t('ip.geolocation.header.desc')}
         </p>
       </div>
 
@@ -103,7 +113,7 @@ export default function IPGeolocation() {
           <div className="flex space-x-2">
             <input
               type="text"
-              placeholder="请输入IP地址 (例如: 8.8.8.8)"
+              placeholder={t('ip.geolocation.input.placeholder')}
               value={ip}
               onChange={(e) => setIp(e.target.value)}
               className="flex-1 px-4 py-2 border border-border rounded-lg bg-background text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
@@ -115,7 +125,7 @@ export default function IPGeolocation() {
               className="px-6 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 disabled:opacity-50 flex items-center space-x-2"
             >
               <Search className="h-4 w-4" />
-              <span>{loading ? '查询中...' : '查询'}</span>
+              <span>{loading ? t('ip.geolocation.loading') : t('ip.geolocation.button.search')}</span>
             </button>
           </div>
           
@@ -126,7 +136,7 @@ export default function IPGeolocation() {
             className="w-full px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:opacity-50 flex items-center justify-center space-x-2"
           >
             <User className="h-4 w-4" />
-            <span>{gettingMyIP ? '获取中...' : '获取我的IP地址'}</span>
+            <span>{gettingMyIP ? t('ip.geolocation.loading') : t('ip.geolocation.button.get.my.ip')}</span>
           </button>
           
           {error && (
@@ -144,32 +154,32 @@ export default function IPGeolocation() {
           <div className="bg-card border border-border rounded-lg p-6 space-y-6">
             <h2 className="text-xl font-semibold text-foreground flex items-center space-x-2">
               <Globe className="h-5 w-5 text-primary" />
-              <span>地理位置信息</span>
+              <span>{t('ip.geolocation.location.info')}</span>
             </h2>
             
             <div className="space-y-4">
               {/* 基本信息 */}
               <div className="space-y-3">
-                <h3 className="text-lg font-medium text-foreground">基本信息</h3>
+                <h3 className="text-lg font-medium text-foreground">{t('ip.geolocation.location.info')}</h3>
                 <div className="space-y-2">
                   <div className="flex justify-between">
-                    <span className="text-muted-foreground">IP地址:</span>
+                    <span className="text-muted-foreground">{t('ip.geolocation.ip.address')}:</span>
                     <span className="font-mono text-foreground">{result.ip}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-muted-foreground">国家/地区:</span>
+                    <span className="text-muted-foreground">{t('ip.geolocation.country')}:</span>
                     <span className="text-foreground">{result.country}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-muted-foreground">省/州:</span>
+                    <span className="text-muted-foreground">{t('ip.geolocation.region')}:</span>
                     <span className="text-foreground">{result.region}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-muted-foreground">城市:</span>
+                    <span className="text-muted-foreground">{t('ip.geolocation.city')}:</span>
                     <span className="text-foreground">{result.city}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-muted-foreground">时区:</span>
+                    <span className="text-muted-foreground">{t('ip.geolocation.timezone')}:</span>
                     <span className="text-foreground">{result.timezone}</span>
                   </div>
                 </div>
@@ -177,22 +187,22 @@ export default function IPGeolocation() {
 
               {/* 网络信息 */}
               <div className="space-y-3 pt-4 border-t border-border">
-                <h3 className="text-lg font-medium text-foreground">网络信息</h3>
+                <h3 className="text-lg font-medium text-foreground">{t('ip.geolocation.network.info')}</h3>
                 <div className="space-y-2">
                   <div className="flex justify-between">
-                    <span className="text-muted-foreground">ISP:</span>
+                    <span className="text-muted-foreground">{t('ip.geolocation.isp')}:</span>
                     <span className="text-foreground">{result.isp}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-muted-foreground">组织:</span>
+                    <span className="text-muted-foreground">{t('ip.geolocation.organization')}:</span>
                     <span className="text-foreground">{result.org}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-muted-foreground">ASN:</span>
+                    <span className="text-muted-foreground">{t('ip.geolocation.asn')}:</span>
                     <span className="font-mono text-foreground">{result.as}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-muted-foreground">ASN名称:</span>
+                    <span className="text-muted-foreground">{t('ip.geolocation.asn')} {language === 'zh' ? '名称' : 'Name'}:</span>
                     <span className="text-foreground">{result.asname}</span>
                   </div>
                 </div>
@@ -200,14 +210,14 @@ export default function IPGeolocation() {
 
               {/* 坐标信息 */}
               <div className="space-y-3 pt-4 border-t border-border">
-                <h3 className="text-lg font-medium text-foreground">坐标信息</h3>
+                <h3 className="text-lg font-medium text-foreground">{t('ip.geolocation.coordinates')}</h3>
                 <div className="space-y-2">
                   <div className="flex justify-between">
-                    <span className="text-muted-foreground">纬度:</span>
+                    <span className="text-muted-foreground">{language === 'zh' ? '纬度' : 'Latitude'}:</span>
                     <span className="font-mono text-foreground">{result.latitude}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-muted-foreground">经度:</span>
+                    <span className="text-muted-foreground">{language === 'zh' ? '经度' : 'Longitude'}:</span>
                     <span className="font-mono text-foreground">{result.longitude}</span>
                   </div>
                 </div>

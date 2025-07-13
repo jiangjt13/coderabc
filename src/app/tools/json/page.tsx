@@ -6,6 +6,7 @@ import {
   Search, Settings, Database, RefreshCw, Link, MousePointer,
   ChevronDown, ChevronRight
 } from 'lucide-react'
+import { useLanguage } from '@/contexts/language-context'
 
 interface IndentOption {
   label: string
@@ -24,6 +25,7 @@ interface JsonNode {
 }
 
 export default function JSONTools() {
+  const { language, t } = useLanguage()
   const [input, setInput] = useState('')
   const [output, setOutput] = useState('')
   const [isValid, setIsValid] = useState<boolean | null>(null)
@@ -49,6 +51,14 @@ export default function JSONTools() {
     { label: '4 空格', value: '    ', type: 'space', size: 4 },
     { label: 'Tab', value: '\t', type: 'tab' }
   ]
+
+  // 动态更新页面标题
+  useEffect(() => {
+    document.title = `CoderABC - ${t('json.tools.page.title')}`
+    return () => {
+      document.title = 'CoderABC - 开发者工具与技术笔记'
+    }
+  }, [language, t])
 
   // 简单的JSON到YAML转换 - 修复数组缩进问题
   const jsonToYamlSimple = (obj: any, indent = 0): string => {
@@ -562,10 +572,10 @@ export default function JSONTools() {
       <div className="text-center space-y-4">
         <h1 className="text-3xl font-bold text-foreground flex items-center justify-center space-x-2">
           <Code2 className="h-8 w-8 text-primary" />
-          <span>JSON 工具集合</span>
+          <span>{t('json.tools.title')}</span>
         </h1>
         <p className="text-lg text-muted-foreground">
-          功能强大的JSON处理工具，支持格式化、转换、查询、生成等多种操作
+          {t('json.tools.description')}
         </p>
       </div>
 

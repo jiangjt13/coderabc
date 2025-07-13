@@ -1,9 +1,11 @@
 'use client'
 
 import { FileText, Terminal, Copy, ChevronDown, ChevronRight, Menu, X } from 'lucide-react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useLanguage } from '@/contexts/language-context'
 
 export default function JQTour() {
+  const { language, t } = useLanguage()
   const [activeSection, setActiveSection] = useState('installation')
   const [sidebarOpen, setSidebarOpen] = useState(true)
   const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>({
@@ -12,6 +14,14 @@ export default function JQTour() {
     'advanced': true,
     'tips': true
   })
+
+  // 动态更新页面标题
+  useEffect(() => {
+    document.title = `CoderABC - ${t('jq.page.title')}`
+    return () => {
+      document.title = 'CoderABC - 开发者工具与技术笔记'
+    }
+  }, [language, t])
 
   const toggleSection = (sectionId: string) => {
     setExpandedSections(prev => ({
@@ -23,38 +33,38 @@ export default function JQTour() {
   const tableOfContents = [
     {
       id: 'getting-started',
-      title: '开始使用',
+      title: t('jq.getting.started'),
       children: [
-        { id: 'installation', title: '如何安装' },
-        { id: 'basic-intro', title: '基本介绍' }
+        { id: 'installation', title: t('jq.installation') },
+        { id: 'basic-intro', title: t('jq.basic.intro') }
       ]
     },
     {
       id: 'basic-usage',
-      title: '基础用法',
+      title: t('jq.basic.usage'),
       children: [
-        { id: 'basic-syntax', title: '基本语法' },
-        { id: 'field-access', title: '字段访问' },
-        { id: 'array-operations', title: '数组操作' },
-        { id: 'filtering', title: '条件过滤' }
+        { id: 'basic-syntax', title: t('jq.basic.syntax') },
+        { id: 'field-access', title: t('jq.field.access') },
+        { id: 'array-operations', title: t('jq.array.operations') },
+        { id: 'filtering', title: t('jq.filtering') }
       ]
     },
     {
       id: 'advanced',
-      title: '高级功能',
+      title: t('jq.advanced'),
       children: [
-        { id: 'complex-queries', title: '复杂查询' },
-        { id: 'data-transformation', title: '数据转换' },
-        { id: 'functions', title: '内置函数' }
+        { id: 'complex-queries', title: t('jq.complex.queries') },
+        { id: 'data-transformation', title: t('jq.data.transform') },
+        { id: 'functions', title: t('jq.functions') }
       ]
     },
     {
       id: 'tips',
-      title: '使用技巧',
+      title: t('jq.tips'),
       children: [
-        { id: 'common-options', title: '常用选项和参数' },
-        { id: 'best-practices', title: '最佳实践' },
-        { id: 'troubleshooting', title: '常见问题' }
+        { id: 'common-options', title: t('jq.common.patterns') },
+        { id: 'best-practices', title: t('jq.performance') },
+        { id: 'troubleshooting', title: t('jq.debugging') }
       ]
     }
   ]
@@ -146,9 +156,9 @@ export default function JQTour() {
         return (
           <div className="space-y-6">
             <div>
-              <h2 className="text-2xl font-bold text-foreground mb-4">如何安装</h2>
+              <h2 className="text-2xl font-bold text-foreground mb-4">{t('jq.installation')}</h2>
               <p className="text-muted-foreground mb-6">
-                jq是一个轻量级的命令行JSON处理器，支持多种操作系统的安装。
+                {language === 'zh' ? 'jq是一个轻量级的命令行JSON处理器，支持多种操作系统的安装。' : 'jq is a lightweight command-line JSON processor that supports installation on multiple operating systems.'}
               </p>
             </div>
             
@@ -195,14 +205,14 @@ export default function JQTour() {
         return (
           <div className="space-y-6">
             <div>
-              <h2 className="text-2xl font-bold text-foreground mb-4">基本介绍</h2>
+              <h2 className="text-2xl font-bold text-foreground mb-4">{t('jq.basic.intro')}</h2>
               <p className="text-muted-foreground mb-6">
-                jq是一个强大的命令行工具，专门用于处理JSON数据。它可以解析、过滤、映射和转换结构化数据。
+                {language === 'zh' ? 'jq是一个强大的命令行工具，专门用于处理JSON数据。它可以解析、过滤、映射和转换结构化数据。' : 'jq is a powerful command-line tool specifically designed for processing JSON data. It can parse, filter, map and transform structured data.'}
               </p>
             </div>
             
             <div className="bg-card border border-border rounded-lg p-6 space-y-4">
-              <h3 className="text-lg font-semibold text-card-foreground">主要特性</h3>
+              <h3 className="text-lg font-semibold text-card-foreground">{language === 'zh' ? '主要特性' : 'Key Features'}</h3>
               <ul className="space-y-2 text-muted-foreground">
                 <li>• <strong>轻量级</strong>：单一可执行文件，无外部依赖</li>
                 <li>• <strong>强大的过滤功能</strong>：支持复杂的查询表达式</li>
@@ -680,13 +690,16 @@ export default function JQTour() {
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-2">
               <FileText className="h-5 w-5 text-primary" />
-              <h1 className="text-lg font-bold text-card-foreground">jq Tour</h1>
+              <h1 className="text-lg font-bold text-card-foreground">{t('jq.tour.title')}</h1>
             </div>
+            {/* 目录开关按钮 */}
             <button
               onClick={() => setSidebarOpen(false)}
-              className="p-1 hover:bg-muted rounded lg:hidden"
+              className="flex items-center space-x-1 px-2 py-1 text-xs font-medium text-muted-foreground hover:text-foreground hover:bg-muted rounded transition-colors"
+              title={t('jq.hide.toc')}
             >
-              <X className="h-4 w-4" />
+              <FileText className="h-3 w-3" />
+              <span className="hidden sm:inline">{language === 'zh' ? '隐藏' : 'Hide'}</span>
             </button>
           </div>
           
@@ -743,7 +756,7 @@ export default function JQTour() {
             )}
             <div className="flex items-center space-x-2">
               <Terminal className="h-5 w-5 text-primary" />
-              <h1 className="text-xl font-bold text-foreground">jq Tour</h1>
+              <h1 className="text-xl font-bold text-foreground">{t('jq.tour.title')}</h1>
             </div>
           </div>
         </div>

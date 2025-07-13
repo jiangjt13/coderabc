@@ -1,4 +1,4 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import { ThemeProvider } from '@/components/theme-provider'
@@ -12,7 +12,6 @@ export const metadata: Metadata = {
   description: '面向开发者和技术爱好者的在线工具与知识笔记集合网站，提供实用的开发工具和命令行技术文档',
   keywords: '开发者工具,在线工具,技术笔记,命令行工具,编程教程,CoderABC',
   authors: [{ name: 'CoderABC' }],
-  viewport: 'width=device-width, initial-scale=1',
   robots: 'index, follow',
   openGraph: {
     title: 'CoderABC - 开发者工具与技术笔记',
@@ -20,6 +19,11 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'zh_CN',
   },
+}
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
 }
 
 export default function RootLayout({
