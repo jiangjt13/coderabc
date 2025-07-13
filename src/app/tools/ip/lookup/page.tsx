@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Search, MapPin, Globe, Server, ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 
@@ -8,6 +8,14 @@ export default function IPLookup() {
   const [ip, setIp] = useState('')
   const [result, setResult] = useState<any>(null)
   const [loading, setLoading] = useState(false)
+
+  // 动态更新页面标题
+  useEffect(() => {
+    document.title = 'CoderABC - IP地址查询工具'
+    return () => {
+      document.title = 'CoderABC - 开发者工具与技术笔记'
+    }
+  }, [])
 
   const queryIP = async () => {
     if (!ip.trim()) return

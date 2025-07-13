@@ -2,32 +2,44 @@
 
 import Link from 'next/link'
 import { Search, Globe, Server, Network } from 'lucide-react'
+import { useEffect } from 'react'
+import { useLanguage } from '@/contexts/language-context'
 
 export default function IPTools() {
+  const { language, t } = useLanguage()
+  
+  // 动态更新页面标题
+  useEffect(() => {
+    document.title = `CoderABC - ${t('ip.tools.page.title')}`
+    return () => {
+      document.title = 'CoderABC - 开发者工具与技术笔记'
+    }
+  }, [language, t])
+  
   const ipTools = [
     {
-      title: 'IP 地理位置查询',
-      description: '查询IP地址的详细信息，包括地理位置、ISP、ASN等',
+      title: t('ip.geolocation.title'),
+      description: t('ip.geolocation.description'),
       icon: Search,
       href: '/tools/ip/geolocation',
       color: 'bg-blue-500',
-      features: ['地理位置', 'ISP信息', 'ASN信息', '内嵌地图']
+      features: [t('ip.geolocation.features.location'), t('ip.geolocation.features.isp'), t('ip.geolocation.features.asn'), t('ip.geolocation.features.map')]
     },
     {
-      title: 'IP 格式转换',
-      description: '支持IPv4/IPv6与各种数值格式的相互转换',
+      title: t('ip.converter.title'),
+      description: t('ip.converter.description'),
       icon: Server,
       href: '/tools/ip/converter',
       color: 'bg-red-500',
-      features: ['IPv4/IPv6', '大小端序', 'int32/uint32', '多进制转换']
+      features: [t('ip.converter.features.ipv4'), t('ip.converter.features.endian'), t('ip.converter.features.int32'), t('ip.converter.features.base')]
     },
     {
-      title: 'IP 段查询',
-      description: '查询IP地址段的详细信息和范围',
+      title: t('ip.range.title'),
+      description: t('ip.range.description'),
       icon: Network,
       href: '/tools/ip/range',
       color: 'bg-purple-500',
-      features: ['CIDR计算', 'IP范围', '子网掩码', '网络地址']
+      features: [t('ip.range.features.cidr'), t('ip.range.features.range'), t('ip.range.features.mask'), t('ip.range.features.network')]
     }
   ]
 
@@ -37,10 +49,10 @@ export default function IPTools() {
       <div className="text-center space-y-4">
         <h1 className="text-3xl font-bold text-foreground flex items-center justify-center space-x-2">
           <Globe className="h-8 w-8 text-primary" />
-          <span>IP 工具集合</span>
+          <span>{t('ip.tools.title')}</span>
         </h1>
         <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-          全面的IP地址工具集合，包括查询、分析、转换和网络诊断等功能
+          {t('ip.tools.description')}
         </p>
       </div>
 
@@ -74,7 +86,7 @@ export default function IPTools() {
 
                 {/* Features */}
                 <div className="space-y-2">
-                  <div className="text-xs font-medium text-muted-foreground">主要功能:</div>
+                  <div className="text-xs font-medium text-muted-foreground">{language === 'zh' ? '主要功能:' : 'Key Features:'}</div>
                   <div className="flex flex-wrap gap-1">
                     {tool.features.map((feature, idx) => (
                       <span
@@ -101,11 +113,11 @@ export default function IPTools() {
 
       {/* 使用说明 */}
       <div className="bg-card border border-border rounded-lg p-6">
-        <h2 className="text-xl font-semibold text-card-foreground mb-4">工具说明</h2>
+        <h2 className="text-xl font-semibold text-card-foreground mb-4">{language === 'zh' ? '工具说明' : 'Tool Description'}</h2>
         <div className="space-y-3 text-sm text-muted-foreground">
-          <p><strong>IP 地理位置查询：</strong>查询任意IP地址的地理位置、运营商、ASN等详细信息，支持一键获取本机IP。</p>
-          <p><strong>IP 格式转换：</strong>支持IPv4/IPv6与十进制、二进制、十六进制的相互转换，支持大小端序和有无符号整数。</p>
-          <p><strong>IP 段查询：</strong>计算CIDR网段的详细信息，包括网络地址、广播地址、可用IP范围等。</p>
+          <p><strong>{t('ip.geolocation.title')}：</strong>{language === 'zh' ? '查询任意IP地址的地理位置、运营商、ASN等详细信息，支持一键获取本机IP。' : 'Query the geographic location, ISP, ASN and other detailed information of any IP address, supporting one-click local IP detection.'}</p>
+          <p><strong>{t('ip.converter.title')}：</strong>{language === 'zh' ? '支持IPv4/IPv6与十进制、二进制、十六进制的相互转换，支持大小端序和有无符号整数。' : 'Support mutual conversion between IPv4/IPv6 and decimal, binary, hexadecimal formats, supporting endianness and signed/unsigned integers.'}</p>
+          <p><strong>{t('ip.range.title')}：</strong>{language === 'zh' ? '计算CIDR网段的详细信息，包括网络地址、广播地址、可用IP范围等。' : 'Calculate detailed information of CIDR network segments, including network address, broadcast address, available IP range, etc.'}</p>
         </div>
       </div>
     </div>

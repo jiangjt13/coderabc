@@ -3,9 +3,18 @@
 import Link from 'next/link'
 import { Heart } from 'lucide-react'
 import { useLanguage } from '@/contexts/language-context'
+import { useEffect } from 'react'
 
 export default function About() {
   const { t } = useLanguage()
+
+  // 动态更新页面标题
+  useEffect(() => {
+    document.title = 'CoderABC - 关于我们'
+    return () => {
+      document.title = 'CoderABC - 开发者工具与技术笔记'
+    }
+  }, [])
   
   return (
     <div className="max-w-4xl mx-auto space-y-8">
@@ -58,7 +67,7 @@ export default function About() {
             <span>{t('about.team')}</span>
           </div>
           <div className="mt-2 text-sm text-muted-foreground">
-            {t('about.visit')} <Link href="https://redherringai.com" className="text-primary hover:underline">redherringai.com</Link>
+            {t('about.visit')} <Link href="https://coderabc.redherringai.com" className="text-primary hover:underline">coderabc.redherringai.com</Link>
           </div>
         </div>
       </div>

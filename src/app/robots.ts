@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: '/',
       disallow: ['/private/', '/admin/'],
     },
-    sitemap: 'https://your-domain.com/sitemap.xml', // 替换为您的实际域名
+    sitemap: 'https:/coderabc.redherringai.com/sitemap.xml', // 替换为您的实际域名
   }
 }

@@ -3,9 +3,18 @@
 import Link from 'next/link'
 import { FileText } from 'lucide-react'
 import { useLanguage } from '@/contexts/language-context'
+import { useEffect } from 'react'
 
 export default function NotesPage() {
   const { t } = useLanguage()
+
+  // 动态更新页面标题
+  useEffect(() => {
+    document.title = 'CoderABC - 技术笔记'
+    return () => {
+      document.title = 'CoderABC - 开发者工具与技术笔记'
+    }
+  }, [])
   
   const notes = [
     {

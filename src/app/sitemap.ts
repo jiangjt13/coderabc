@@ -1,13 +1,14 @@
 import { MetadataRoute } from 'next'
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://your-domain.com' // 替换为您的实际域名
+  const baseUrl = 'https://coderabc.redherringai.com' // 替换为您的实际域名
   
   return [
     {
       url: baseUrl,
       lastModified: new Date(),
       changeFrequency: 'weekly',
+
       priority: 1,
     },
     {
